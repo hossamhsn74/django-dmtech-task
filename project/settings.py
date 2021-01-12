@@ -43,9 +43,10 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'rest_auth.registration',
     'users.apps.UsersConfig',
+    'ticket.apps.TicketConfig',
     'allauth',
     'allauth.account',
-
+    'qr_code',
 
 ]
 
@@ -158,5 +159,3 @@ ACCOUNT_USERNAME_REQUIRED = False
 SITE_ID = 1
 # LOGIN_REDIRECT_URL = '/'
 # LOGOUT_REDIRECT_URL = '/'
-
-
