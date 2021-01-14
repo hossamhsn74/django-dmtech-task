@@ -7,7 +7,7 @@ from io import BytesIO
 from qrcode.image.pure import PymagingImage
 from django.core.files import File
 from PIL import Image, ImageDraw
-
+from django.db.models.signals import post_save
 
 
 class Ticket(models.Model):
@@ -29,9 +29,11 @@ class Ticket(models.Model):
         return reverse('ticketdetails', args=[str(self.id)])
 
     def save(self, *args, **kwargs):
-        qr_info = [str(self.pk), str(self.title), str(self.price), str(
-            self.description), str(self.location), str(self.created_by)]
-        qr_info = ",".join(qr_info)
+        qr_info = {"title": str(self.title), "price": str(self.price),
+                   "description": str(self.description), "location": str(self.location),
+                   "created_by": str(self.created_by)
+                   }
+        print(type(qr_info))
         qr = qrcode.QRCode(
             version=12,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -40,7 +42,8 @@ class Ticket(models.Model):
         )
         qr.add_data(qr_info)
         qr.make(fit=True)
-        qrcode_img = qr.make_image(fill_color="black", back_color="white", fit=True)
+        qrcode_img = qr.make_image(
+            fill_color="black", back_color="white", fit=True)
         canvas = Image.new('RGB', (290, 290), 'white')
         draw = ImageDraw.Draw(canvas)
         canvas.paste(qrcode_img)
@@ -50,5 +53,3 @@ class Ticket(models.Model):
         self.code.save(file_name, File(buffer), save=False)
         canvas.close()
         super().save(*args, **kwargs)
-
-
