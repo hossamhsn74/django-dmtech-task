@@ -29,18 +29,21 @@ class Ticket(models.Model):
         return reverse('ticketdetails', args=[str(self.id)])
 
     def save(self, *args, **kwargs):
-        qr_info = {"title": str(self.title), "price": str(self.price),
-                   "description": str(self.description), "location": str(self.location),
-                   "created_by": str(self.created_by)
-                   }
-        print(type(qr_info))
+        data = {}
+        data["title"] = str(self.title)
+        data["description"] = str(self.description)
+        data["price"] = str(self.price)
+        data["location"] = str(self.location)
+        data["created_by"] = str(self.created_by)
+        qr_info = str(data)
+                           
         qr = qrcode.QRCode(
             version=12,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
             box_size=3,
             border=15,
         )
-        qr.add_data(qr_info)
+        qr.add_data(str(qr_info))
         qr.make(fit=True)
         qrcode_img = qr.make_image(
             fill_color="black", back_color="white", fit=True)

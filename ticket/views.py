@@ -1,11 +1,13 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView, CreateView, FormView
+from django.views.generic import ListView, DetailView, CreateView, FormView, TemplateView
 from ticket.models import Ticket
 from .forms import CodeScannerForm
 from django.urls import reverse
+from django.shortcuts import redirect
 from PIL import Image
 import cv2
 import numpy
+import ast
 
 
 class TicketList(ListView):
@@ -54,19 +56,19 @@ class scanTicket(FormView):
                 cv2.line(open_cv_img, point1, point2,
                          color=(255, 0, 0), thickness=2)
         else:
-            # redirect to sorry page
-            pass
-        
-        print("checking data", type(data))
-        # divide data and query from db for match
-        # for key in data.items():
-            # print("checking data" , data.items())
-        # for 
-        # if Ticket.objects.filter(title=data.items().['title'] & created_by=data['created_by'] & created_on=data['created_on']):
-        #     # found then redirect to show object
-        #     print("found")
-        #     return reverse('ticketdetails', args=[str(self.id)])
-        # else:
-        #     # not found redirect to sorry page
-        #     pass
+            return redirect('errorView')
+
+        str("{}".format(data))
+        data = ast.literal_eval(data)
+        search_result = Ticket.objects.filter(
+            title=data["title"], price=data["price"])[0]
+        if search_result:
+            return redirect('ticketdetails', pk=search_result.id)
+        else:
+            return redirect('errorView')
+
         return super().form_valid(form)
+
+
+class errorView(TemplateView):
+    template_name = "ticket/errorPage.html"
