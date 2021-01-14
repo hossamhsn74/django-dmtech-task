@@ -1,6 +1,10 @@
 from django.contrib import admin
-from ticket.models import Ticket, TicketQrCode
+from ticket.models import Ticket
 
-# Register your models here.
+
+# class TicketAdmin(admin.ModelAdmin):
+#     readonly_fields = ('code',)
+
+
 admin.site.register(Ticket)
-admin.site.register(TicketQrCode)
+# admin.site.register(TicketQrCode)

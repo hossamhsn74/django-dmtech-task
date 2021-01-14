@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView
-from ticket.models import Ticket, TicketQrCode
+from ticket.models import Ticket
 import pyqrcode
 
 
