@@ -7,8 +7,9 @@ from .views import home_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name="home"),
-    # path('registration/', include('users.urls'), name="users"),
+    path('users/', include('users.urls'), name="users"),
     path('tickets/', include('ticket.urls'), name="tickets"),
+    # path('payment/', include('payment.urls'), name="payments"),
 
 
     # all-auth urls

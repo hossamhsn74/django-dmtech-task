@@ -11,7 +11,3 @@ class TicketForm(forms.ModelForm):
 
 class CodeScannerForm(forms.Form):
     uploaded_img = forms.ImageField(allow_empty_file=False)
-
-    # def send_email(self):
-    #     # send email using the self.cleaned_data dictionary
-    #     pass

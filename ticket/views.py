@@ -4,17 +4,24 @@ from ticket.models import Ticket
 from .forms import CodeScannerForm
 from django.urls import reverse
 from django.shortcuts import redirect
+from django.contrib.auth.mixins import UserPassesTestMixin
 from PIL import Image
 import cv2
 import numpy
 import ast
 
 
-class TicketList(ListView):
+class TicketList(UserPassesTestMixin, ListView):
     model = Ticket
     paginate_by = 10
     context_object_name = 'tickets'
     template_name = 'ticket/ticketList.html'
+
+    def get_queryset(self):
+        return Ticket.objects.filter(created_by=self.request.user)
+
+    def test_func(self):
+        return self.request.user.user_type == "service provider"
 
 
 class ticketDetails(DetailView):
@@ -23,13 +30,21 @@ class ticketDetails(DetailView):
     template_name = 'ticket/ticketDetails.html'
 
 
-class addTicket(CreateView):
+class addTicket(UserPassesTestMixin, CreateView):
     model = Ticket
-    fields = '__all__'
+    fields = ['created_by', 'title', 'location', 'description', 'price']
     template_name = 'ticket/addTicket.html'
 
+    def get_initial(self, *args, **kwargs):
+        initial = super(addTicket, self).get_initial(**kwargs)
+        initial['created_by'] = self.request.user
+        return initial
 
-class scanTicket(FormView):
+    def test_func(self):
+        return self.request.user.user_type == "service provider"
+
+
+class scanTicket(UserPassesTestMixin, FormView):
     template_name = 'ticket/scanTicket.html'
     form_class = CodeScannerForm
 
@@ -68,6 +83,9 @@ class scanTicket(FormView):
             return redirect('errorView')
 
         return super().form_valid(form)
+
+    def test_func(self):
+        return self.request.user.user_type == "customer"
 
 
 class errorView(TemplateView):

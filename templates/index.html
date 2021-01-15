@@ -3,12 +3,24 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-{% if user.is_authenticated %}
-  Hi {{ user.username }}!
-  <p><a href="{% url 'logout' %}">logout</a></p>
 
-{% else %}
-  <p>You are not logged in</p>
-  <a href="{% url 'users:login' %}">login</a>
-{% endif %}
+  {% if user.is_authenticated %}
+    <li>Welcome, {{ user.first_name }}</li>
+    <li><a href="{% url 'logout'%}">Logout</a></li>
+  {% else %}
+    <li><a href="{% url 'signup'%}?next={{request.path}}">Signup</a></li>
+    <li><a href="{% url 'login'%}">Login</a></li>
+  {% endif %} 
+
+  {% if user.user_type == "service provider" %}
+    <li>show options to create/ view tickets </li>
+    <li><a href="{% url 'addTicket'%}">create new ticket</a></li>
+
+  {% else%}
+    <li>customer show scan options </li>
+    <li><a href="{% url 'scanTicket'%}">Upload QR code</a></li>
+
+  {% endif %} 
+
+
 {% endblock %}

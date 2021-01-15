@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'users.apps.UsersConfig',
     'ticket.apps.TicketConfig',
+    'payment.apps.PaymentConfig',
     'allauth',
     'allauth.account',
     'qr_code',
@@ -157,5 +158,11 @@ ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_USERNAME_REQUIRED = False
 SITE_ID = 1
-# LOGIN_REDIRECT_URL = '/'
-# LOGOUT_REDIRECT_URL = '/'
+
+
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "home"
+
+
+STRIPE_PUBLISHABLE_KEY = 'pk_test_51HcJbuFcMw87kAqH61BnVzXfhtlP2QoAy9pPF4WwxO0k6ujThdjmZbgP4Sfaiv5B9dQboPf9Z1LSpP3vKKKajnod00npeWLbec'
+STRIPE_SECRET_KEY = 'sk_test_51HcJbuFcMw87kAqH0wSjtvppqWF4ElNuIUnSBOXJqMJs7O0t3B37VZog8pRkyZ1JbGjaqkIzIQMqhy77jIsI6VD300zODhpPdY'

@@ -1,11 +1,13 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
+from users.models import CustomUser
 
 
 def home_view(request):
-    # if 'user' in request.session:
-    # current_user = request.session['user']
-    # param = {'current_user': current_user}
-    return render(request, 'index.html')
-    # else:
-    #     return redirect('login')
-    # return render(request, 'index.html')
+    if not request.user.is_authenticated:
+        return redirect('login')
+    else:
+        if request.user.user_type == "service provider":
+            return redirect('ticketlist')
+        else:
+            return redirect('scanTicket')
