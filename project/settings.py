@@ -44,10 +44,11 @@ INSTALLED_APPS = [
     'rest_auth.registration',
     'users.apps.UsersConfig',
     'ticket.apps.TicketConfig',
-    'payment.apps.PaymentConfig',
+    # 'payment.apps.PaymentConfig',
     'allauth',
     'allauth.account',
     'qr_code',
+    'stripe',
 
 ]
 
