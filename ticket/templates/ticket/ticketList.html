@@ -2,37 +2,55 @@
 {% block title %} Ticket List {% endblock %}
 
 {% block content %}
-  <h1>My Tickets List</h1>
 
-  <a href="{% url 'addTicket' %}"> Add new ticket</a> 
+<div class="container-fluid product_bg py-2">
+  <div class="container">
 
-  {% if tickets %}
-  <ul>
-    {% for ticket in tickets %}
-      <li>
-        <a href="{{ ticket.get_absolute_url }}">{{ ticket.title }}</a> $ {{ticket.price}}
-      </li>
-    {% endfor %}
-  </ul>
-  {% else %}
-    <p>There are no tickets in the library.</p>
-  {% endif %} 
+    <h1 class="container-fluid text-primary  w-100 font_limit py-2 py-2">Tickets List</h1>
+    <a class="w-100 btn btn-lg btn-primary my-2 py-2" href="{% url 'addTicket' %}"> Add Ticket </a>
+    
+    <div class="row m-4">
+        {% if tickets %}
+        {% for ticket in tickets%}
 
-  {% block pagination %}
-    {% if is_paginated %}
-        <div class="pagination">
-            <span class="page-links">
-                {% if page_obj.has_previous %}
-                    <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
-                {% endif %}
-                <span class="page-current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                </span>
-                {% if page_obj.has_next %}
-                    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
-                {% endif %}
-            </span>
+        <div class="col-sm-12 col-md-6  col-lg-3 my-2">
+            <div class="card text-center my_card ">
+              <img src="{{ ticket.code.url }}" class="card-img-top img-responsive" width=190 height=260></img>
+              <div>
+                  <a class="card-title text-primary font-weight-bold py-2 my-2"
+                      href={{ticket.id}}>{{ticket.title}}</a>
+                  <p class="font-weight-bold">$ {{ ticket.price }}</p>
+                  <a href="{% url 'ticketdetails'  ticket.id %}"
+                      class="btn btn-md btn-primary my-2 py-2  justify-content-center details_size">Details</a>
+              </div>
+            </div>
         </div>
+        {% endfor %}
+        {% else %}
+        <p>There are no tickets in the library.</p>
+        {% endif%}
+
+    </div>
+  </div> 
+</div>
+
+
+{% block pagination %}
+{% if is_paginated %}
+<div class="pagination">
+  <span class="page-links">
+    {% if page_obj.has_previous %}
+    <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
     {% endif %}
-  {% endblock %}
+    <span class="page-current">
+      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+    </span>
+    {% if page_obj.has_next %}
+    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+    {% endif %}
+  </span>
+</div>
+{% endif %}
+{% endblock %}
+
 {% endblock %}

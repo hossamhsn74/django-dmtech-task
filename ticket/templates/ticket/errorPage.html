@@ -1,12 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Error!!</h1>
+<div class="container">
 
-<p><strong>Sorry!</strong></p>
-you're here 
-1- not found correponding Ticket
-2- invalid image uploaded
+    <br>
+    <h1 class="container-fluid text-primary py-2  p_price py-2">oops.. !!</h1>
+    <hr>
+    <p><strong>You're here because you have one of these errors!</strong></p>
+    <ul>
+        <li><p>uploaded image don't contain QR code</p></li>
+        <li><p>QR contain other data, not Ticket info.</p></li>
+        <li><p>Ticket not found or deleted </p></li>
+    </ul>
+    <hr>
+    <p><strong>Try again please!</strong></p>
 
+</div>
 
 {% endblock %}

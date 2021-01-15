@@ -11,3 +11,4 @@ def home_view(request):
             return redirect('ticketlist')
         else:
             return redirect('scanTicket')
+        return redirect('login')

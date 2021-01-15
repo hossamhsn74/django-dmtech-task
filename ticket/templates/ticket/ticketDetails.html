@@ -1,19 +1,41 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Title: {{ ticket.title }}</h1>
+<div class="container-fluid product_bg py-2">
+    <div class="container">
+        <div id="products-container" class="container">
+            <a class="w-25 btn  text-primary bg-light btn-md btn-primary my-2 py-2" href="{% url 'addTicket' %}"> Add Ticket</a>
 
-<p><strong>Ticket id:</strong> <a href="">{{ ticket.id }}</a></p>
-<p><strong>Created by:</strong> <a href="">{{ ticket.created_by }}</a></p>
-<p><strong>Location:</strong> {{ ticket.location }}</p>
-<p><strong>Description:</strong> {{ ticket.description }}</p>
-<p><strong>Price:</strong> {{ ticket.price }}</p>
-<p><strong>Created on:</strong> {{ ticket.created_on }}</p>
+            <div class="row my-4 order_details">
+                <div class="col-sm-12 col-md-6 m-auto img-magnifier-container">
+                    <img id="myimage" src="{{ ticket.code.url }}" width="400" height="400">
+                </div>
+                <div class="col-sm-12 col-md-6  ">
+                  
 
-<p><img src="{{ ticket.code.url }}" width=290 height=290></img>
-</p>
-<a href="{% url 'addTicket' %}"> Buy</a>
-<a href="{% url 'ticketlist' %}"> Back</a>
-<a href="{% url 'addTicket' %}"> Add new ticket</a>
+                    <div class="row">
+                        <h1 class="container-fluid text-primary  w-100 font_limit py-2 py-2 p_price"> {{ticket.title}}</h1>
+                        <p><strong>Id:</strong> {{ ticket.id }}</p>
+                        <p><strong>Location:</strong> {{ ticket.location }}</p>
+                        <p><strong>Description:</strong> {{ ticket.description }}</p>
+                        <p><strong>Created by:</strong> <a href="">{{ ticket.created_by }}</a></p>
+                        <p><strong>Created on:</strong> {{ ticket.created_on }}</p>
+                        <p class="p_price text-primary"><strong></strong> $ {{ ticket.price }}</p>
+                        <a class="w-50 btn btn-lg btn-primary my-2 py-2" href="{% url 'addTicket' %}"> Buy</a>
+
+                    </div>
+                    
+                </div>
+                <a class="w-25 btn  text-primary bg-light btn-md btn-primary my-2 py-2" href="{% url 'ticketlist' %}"> Back</a>
+        
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+
 
 {% endblock %}

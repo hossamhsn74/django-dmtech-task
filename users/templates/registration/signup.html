@@ -3,24 +3,24 @@
 {% block title %}Sign Up{% endblock %}
 
 {% block content %}
-
-
-<h2>Sign up Form</h2>
-<form method="post">
-  {% csrf_token %}
-  {% for field in form %}
-  <p>
-    {{ field.label_tag }}<br>
-    {{ field }}
-    {% if field.help_text %}
-    <small style="color: grey">{{ field.help_text }}</small>
-    {% endif %}
-    {% for error in field.errors %}
-  <p style="color: red">{{ error }}</p>
-  {% endfor %}
-  </p>
-  {% endfor %}
-  <button type="submit">Sign up</button>
-</form>
+<main class="form-signin">
+  <div class="container" >
+    <form method="post" action="{% url 'signup' %}">
+      {% csrf_token %}
+      {% for field in form %}
+          {% if field.help_text %}
+            <small style="color: grey">{{ field.help_text }}</small>
+          {% endif %}
+          <label  class="visually-hidden">{{ field.label_tag }}</label>
+          <p>{{ field }}</p>
+          {% for error in field.errors %}
+            <p style="color: red">{{ error }}</p>
+          {% endfor %}
+      {% endfor %}    
+      <button class="w-100 btn btn-lg btn-primary" type="submit" value="signup">Sign up!</button>
+      <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+  </div>
+</main>
 
 {% endblock %}
