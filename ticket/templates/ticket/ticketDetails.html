@@ -4,30 +4,45 @@
 <div class="container-fluid product_bg py-2">
     <div class="container">
         <div id="products-container" class="container">
-            <a class="w-25 btn  text-primary bg-light btn-md btn-primary my-2 py-2" href="{% url 'addTicket' %}"> Add Ticket</a>
+            <a class="w-25 btn  text-primary bg-light btn-md btn-primary my-2 py-2" href="{% url 'addTicket' %}"> Add
+                Ticket</a>
 
             <div class="row my-4 order_details">
                 <div class="col-sm-12 col-md-6 m-auto img-magnifier-container">
                     <img id="myimage" src="{{ ticket.code.url }}" width="400" height="400">
                 </div>
                 <div class="col-sm-12 col-md-6  ">
-                  
+
 
                     <div class="row">
-                        <h1 class="container-fluid text-primary  w-100 font_limit py-2 py-2 p_price"> {{ticket.title}}</h1>
+                        <h1 class="container-fluid text-primary  w-100 font_limit py-2 py-2 p_price"> {{ticket.title}}
+                        </h1>
                         <p><strong>Id:</strong> {{ ticket.id }}</p>
                         <p><strong>Location:</strong> {{ ticket.location }}</p>
                         <p><strong>Description:</strong> {{ ticket.description }}</p>
                         <p><strong>Created by:</strong> <a href="">{{ ticket.created_by }}</a></p>
                         <p><strong>Created on:</strong> {{ ticket.created_on }}</p>
                         <p class="p_price text-primary"><strong></strong> $ {{ ticket.price }}</p>
-                        <a class="w-50 btn btn-lg btn-primary my-2 py-2" href="{% url 'addTicket' %}"> Buy</a>
 
+
+                        <div class="container">
+                            <form action="{% url 'charge' %}" method="post"
+                                class=" text-center justify-content-center mx-auto">
+                                {% csrf_token %}
+                                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                    data-key="pk_test_oUBwpwP3y25hbJbQhDJZYv3K00W6WF7sVs"
+                                    data-description="DMTech Payment" data-amount="{{ticket.price}}"
+                                    data-locale="auto"></script>
+                            </form>
+                        </div>
+
+                       
                     </div>
-                    
+
                 </div>
-                <a class="w-25 btn  text-primary bg-light btn-md btn-primary my-2 py-2" href="{% url 'ticketlist' %}"> Back</a>
-        
+                <a class="w-25 btn  text-primary bg-light btn-md btn-primary my-2 py-2" href="{% url 'ticketlist' %}">
+                    Back</a>
+
             </div>
 
         </div>

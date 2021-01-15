@@ -9,7 +9,7 @@ urlpatterns = [
     path('', home_view, name="home"),
     path('users/', include('users.urls'), name="users"),
     path('tickets/', include('ticket.urls'), name="tickets"),
-    # path('payment/', include('payment.urls'), name="payments"),
+    path('payment/', include('payment.urls'), name="payments"),
 
 
     # all-auth urls
