@@ -2,17 +2,19 @@ import stripe
 from django.conf import settings
 from django.views.generic.base import TemplateView
 from django.shortcuts import render
-from django.conf import settings # new
-from django.http.response import JsonResponse # new
-from django.views.decorators.csrf import csrf_exempt # new
+from django.conf import settings  # new
+from django.http.response import JsonResponse  # new
+from django.views.decorators.csrf import csrf_exempt  # new
+from django.shortcuts import redirect
 
 
-stripe.api_key = settings.STRIPE_SECRET_KEY 
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
 
 class HomePageView(TemplateView):
     template_name = 'cart.html'
 
-    def get_context_data(self, **kwargs):  
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['key'] = settings.STRIPE_PUBLISHABLE_KEY
         return context
@@ -41,7 +43,8 @@ def create_checkout_session(request):
 
             # ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
             checkout_session = stripe.checkout.Session.create(
-                success_url=domain_url + 'success?session_id={CHECKOUT_SESSION_ID}',
+                success_url=domain_url +
+                'success?session_id={CHECKOUT_SESSION_ID}',
                 cancel_url=domain_url + 'cancelled/',
                 payment_method_types=['card'],
                 mode='payment',
@@ -57,28 +60,14 @@ def create_checkout_session(request):
             return JsonResponse({'sessionId': checkout_session['id']})
         except Exception as e:
             return JsonResponse({'error': str(e)})
-def charge(request): # new
-    pass
-#     if request.method == 'POST':
-#         print('charge==========================')
-#         # get_cart, created = cart.objects.get_or_create(user=request.user)
-#         # new_order=Order.objects.create(user_ordered=request.user)
-#         # for item in get_cart.cart_items.all():
-#         #     new_order.items.add(item)
-#         #     new_order.save()
-#         #     user, created = profile.objects.get_or_create(user=request.user)
-#         #     request.user.profile.orders.add(new_order)
-#         #     print(item)
-#         #     request.user.profile.save()
-#         #     get_cart.cart_items.remove(item)
-#         # get_cart.save()
-#         # print('get_cart = ', get_cart)
 
 
-#         charge = stripe.Charge.create(
-#             amount=100,
-#             currency='usd',
-#             description='A Django charge',
-#             source='tok_visa'
-#         )
-#         return render(request, 'charge.html')
+def charge(request):  # new
+    if request.method == 'POST':
+        # charge = stripe.Charge.create(
+        #     amount=100
+        #     currency='usd',
+        #     description='A Django charge',
+        #     source='tok_visa'
+        # )
+        return redirect('ticketlist')
